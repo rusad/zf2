@@ -2,8 +2,12 @@
 
 namespace Product;
 
- use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
- use Zend\ModuleManager\Feature\ConfigProviderInterface;
+use Product\Model\Product;
+use Product\Model\ProductTable;
+use Zend\Db\ResultSet\ResultSet;
+use Zend\Db\TableGateway\TableGateway;
+use Zend\ModuleManager\Feature\AutoloaderProviderInterface;
+use Zend\ModuleManager\Feature\ConfigProviderInterface;
 
 class Module implements AutoloaderProviderInterface, ConfigProviderInterface
 {
@@ -24,6 +28,25 @@ class Module implements AutoloaderProviderInterface, ConfigProviderInterface
                 'namespaces' => array(
                     __NAMESPACE__ => __DIR__ . '/src/' . __NAMESPACE__,
                 ),
+            ),
+        );
+    }
+
+    public function getServiceConfig()
+    {
+        return array(
+            'factories' => array(
+                'Product\Model\ProductTable' =>  function($sm) {
+                    $tableGateway = $sm->get('ProductTableGateway');
+                    $table = new ProductTable($tableGateway);
+                    return $table;
+                },
+                'ProductTableGateway' => function ($sm) {
+                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                    $resultSetPrototype = new ResultSet();
+                    $resultSetPrototype->setArrayObjectPrototype(new Product());
+                    return new TableGateway('products', $dbAdapter, null, $resultSetPrototype);
+                },
             ),
         );
     }

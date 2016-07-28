@@ -7,11 +7,22 @@ use Zend\View\Model\ViewModel;
 
 class ProductController extends AbstractActionController
 {
+    protected $productTable;
+
     public function indexAction()
     {
-        return new ViewModel();
+        return new ViewModel(array(
+            'products' => $this->getProductTable()->fetchAll(),
+        ));
         
     }
 
-    
+    public function getProductTable()
+    {
+        if (!$this->productTable) {
+            $sm = $this->getServiceLocator();
+            $this->productTable = $sm->get('Product\Model\ProductTable');
+        }
+        return $this->productTable;
+    }
 }
