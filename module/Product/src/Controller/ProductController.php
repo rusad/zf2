@@ -13,9 +13,15 @@ class ProductController extends AbstractActionController
 
     public function indexAction()
     {
-        return new ViewModel(array(
-            'products' => $this->getProductTable()->fetchAll(),
-        ));
+        // check whether the user is authenticated
+        $auth = $this->getServiceLocator()->get('my_auth_service');
+        if ($auth->hasIdentity()) {
+            return new ViewModel(array(
+                'products' => $this->getProductTable()->fetchAll(),
+            ));
+        } else {
+            return $this->redirect()->toRoute('auth/default', array('controller' => 'index', 'action' => 'login'));
+        }
         
     }
 

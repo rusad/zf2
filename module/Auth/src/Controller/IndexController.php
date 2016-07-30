@@ -83,6 +83,7 @@ class IndexController extends AbstractActionController
 							$sessionManager = new \Zend\Session\SessionManager();
 							$sessionManager->rememberMe($time);
 						}
+						$this->redirect()->toRoute('product', array('controller' => 'product', 'action' => 'index'));
 						break;
 
 					default:

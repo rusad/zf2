@@ -15,8 +15,10 @@ return array(
                 'options' => array(
                     'route'    => '/',
                     'defaults' => array(
-                        'controller' => 'Application\Controller\Index',
-                        'action'     => 'index',
+                        //'controller' => 'Application\Controller\Index',
+                        'controller' => 'Auth\Controller\Index',
+                        //'action'     => 'index',
+                        'action'     => 'login',
                     ),
                 ),
             ),
