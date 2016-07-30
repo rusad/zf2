@@ -46,7 +46,7 @@ class IndexController extends AbstractActionController
 										   'users', // there is a method setTableName to do the same
 										   'usr_name', // there is a method setIdentityColumn to do the same
 										   'usr_password', // there is a method setCredentialColumn to do the same
-										   "MD5(usr_password) AND usr_active = 1" // setCredentialTreatment(parametrized string) 'MD5(?)'
+										   "MD5(?)"// AND usr_active = 1" // setCredentialTreatment(parametrized string) 'MD5(?)'
 										   //"MD5(CONCAT('$staticSalt', ?, usr_password_salt)) AND usr_active = 1"
 										  );
 				$authAdapter
@@ -54,11 +54,11 @@ class IndexController extends AbstractActionController
 					->setCredential($data['usr_password'])
 				;
 				
-				$auth = new AuthenticationService();
+				// $auth = new AuthenticationService();
 				// or prepare in the globa.config.php and get it from there. Better to be in a module, so we can replace in another module.
 				// $auth = $this->getServiceLocator()->get('Zend\Authentication\AuthenticationService');
-				//$auth = $sm->get('my_auth_service');
-				$sm->setService('Zend\Authentication\AuthenticationService', $auth); // You can set the service here but will be loaded only if this action called.
+				$auth = $sm->get('my_auth_service');
+				//$sm->setService('Zend\Authentication\AuthenticationService', $auth); // You can set the service here but will be loaded only if this action called.
 				
 				$result = $auth->authenticate($authAdapter);			
 				
@@ -99,21 +99,21 @@ class IndexController extends AbstractActionController
 	
 	public function logoutAction()
 	{
-		$auth = new AuthenticationService();
+		// $auth = new AuthenticationService();
 		// or prepare in the globa.config.php and get it from there
 		
 		// no way to get ServiceLocator, hence logout working incorrect, cause $auth is new instance of AuthenticationService
 		// $auth = $this->getServiceLocator()->get('Zend\Authentication\AuthenticationService');
-		// $auth = $this->getServiceLocator()->get('my_auth_service');
+		$auth = $this->getServiceLocator()->get('my_auth_service');
 		
 		if ($auth->hasIdentity()) {
 			$identity = $auth->getIdentity();
 		}			
 		
 		$auth->clearIdentity();
-//		$auth->getStorage()->session->getManager()->forgetMe(); // no way to get the sessionmanager from storage
+		// $auth->getStorage()->session->getManager()->forgetMe(); // no way to get the sessionmanager from storage
 		$sessionManager = new \Zend\Session\SessionManager();
-		//var_dump($sessionManager);
+		
 		$sessionManager->forgetMe();
 		
 		return $this->redirect()->toRoute('auth/default', array('controller' => 'index', 'action' => 'login'));		
