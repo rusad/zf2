@@ -26,4 +26,15 @@ return array(
             'Zend\Db\Adapter\Adapter' => 'Zend\Db\Adapter\AdapterServiceFactory',
         ),
     ),
+
+     
+    // // added for Authentication and Authorization. Without this each time we have to create a new instance.
+    // 'aliases' => array(
+    //     'Zend\Authentication\AuthenticationService' => 'my_auth_service',
+    // ),
+    // 'invokables' => array(
+    //     'my_auth_service' => 'Zend\Authentication\AuthenticationService',
+    // ),
+    
+    //'static_salt' => 'aFGQ475SDsdfsaf2342', // was moved from module.config.php here to allow all modules to use it
 );
