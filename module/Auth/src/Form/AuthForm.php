@@ -9,12 +9,18 @@ class AuthForm extends Form
     {
         parent::__construct('auth');
         $this->setAttribute('method', 'post');
+        $this->setAttribute('class', 'form-horizontal');
 
         $this->add(array(
             'name' => 'usr_name',
             'type'  => 'text',
             'options' => array(
                 'label' => 'Username',
+                
+            ),
+            'attributes' => array(
+                'class' => 'form-control',
+                'placeholder' => 'Login',
             ),
         ));
 
@@ -24,15 +30,22 @@ class AuthForm extends Form
             'options' => array(
                 'label' => 'Password',
             ),
+            'attributes' => array(
+                'class' => 'form-control',
+                'placeholder' => 'Password',
+            ),
         ));
         
         $this->add(array(
             'name' => 'rememberme',
 			'type' => 'checkbox', // 'Zend\Form\Element\Checkbox',			
-          'options' => array(
-                'label' => 'Remember Me?',
+            'options' => array(
+                'label' => 'Remember Me',
 //				'checked_value' => 'true', without value here will be 1
 //				'unchecked_value' => 'false', // witll be 1
+            ),
+            'attributes' => array(
+                'class' => 'checkbox',
             ),
         ));			
         $this->add(array(
@@ -41,6 +54,7 @@ class AuthForm extends Form
             'attributes' => array(
                 'value' => 'Go',
                 'id' => 'submitbutton',
+                'class' => 'btn btn-default',
             ),
         )); 
     }

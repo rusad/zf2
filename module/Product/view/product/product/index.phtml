@@ -31,7 +31,11 @@ $this->headTitle($title);
         <td><?= $this->escapeHtml($product->name) ?></td>
         <td><?= $this->escapeHtml($product->description) ?></td>
         <td><?= $this->escapeHtml($product->price) ?></td>
-        <td><?= $this->escapeHtml($product->photo) ?></td>
+        <td>
+            <a href="<?= $this->escapeHtml($product->photo) ?>">
+                <img src="<?= $this->escapeHtml($product->photo) ?>" width="50" height="50" />
+            </a>
+        </td>
         <td>
         	<a href="<?php echo $this->url('product', array('action'=>'edit', 'id' => $product->id));?>">Edit</a>
          	<a href="<?php echo $this->url('product', array('action'=>'delete', 'id' => $product->id));?>">Delete</a>

@@ -9,6 +9,7 @@ class ProductForm extends Form
     public function __construct($name = null)
     {
         parent::__construct('product');
+        $this->setAttribute('class', 'form-horizontal');
 
         $this->add(array(
             'name' => 'id',
@@ -21,13 +22,23 @@ class ProductForm extends Form
             'options' => array(
                 'label' => 'Name',
             ),
+            'attributes' => array(
+                'class' => 'form-control',
+                'placeholder' => 'Product Name',
+            ),
         ));
 
         $this->add(array(
             'name' => 'description',
-            'type' => 'Text',
+            'type' => 'Textarea',
             'options' => array(
                 'label' => 'Description',
+            ),
+            'attributes' => array(
+                'class' => 'form-control',
+                'placeholder' => 'About Product',
+                'rows' => '5', 
+                'cols' => '22',
             ),
         ));
 
@@ -37,6 +48,10 @@ class ProductForm extends Form
             'options' => array(
                 'label' => 'Price',
             ),
+            'attributes' => array(
+                'class' => 'form-control',
+                'placeholder' => 'Product Price',
+            ),
         ));
 
         $this->add(array(
@@ -44,6 +59,10 @@ class ProductForm extends Form
             'type' => 'Text',
             'options' => array(
                 'label' => 'Photo',
+            ),
+            'attributes' => array(
+                'class' => 'form-control',
+                'placeholder' => 'Photo URL',
             ),
         ));
 
@@ -53,6 +72,7 @@ class ProductForm extends Form
             'attributes' => array(
                 'value' => 'Go',
                 'id' => 'submitbutton',
+                'class' => 'btn btn-default',
             ),
         ));
     }

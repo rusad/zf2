@@ -4,14 +4,28 @@
 $form = $this->form;
 $form->setAttribute('action', $this->url('auth/default', array('controller' => 'index', 'action' => 'login')));
 $form->prepare();
-
-echo $this->form()->openTag($form);
-echo $this->formRow($form->get('usr_name'));
-echo $this->formRow($form->get('usr_password'));
-echo $this->formRow($form->get('rememberme'));
-echo $this->formSubmit($form->get('submit'));
-echo $this->form()->closeTag();
 ?>
+
+<?= $this->form()->openTag($form)?>
+
+<div class="form-group">
+	<?=$this->formRow($form->get('usr_name'))?>
+</div>
+
+<div class="form-group">
+	<?=$this->formRow($form->get('usr_password'))?>
+</div>
+
+<div class="form-group">
+	<?=$this->formRow($form->get('rememberme'))?>
+</div>
+
+<div class="form-group">
+	<?=$this->formSubmit($form->get('submit'))?>
+</div>
+
+<?=$this->form()->closeTag()?>
+
 <?php // view helper
      if ($user = $this->identity()) {
          echo 'Logged in as ' . $this->escapeHtml($user->usr_name);

@@ -7,12 +7,27 @@ $this->headTitle($title);
 
 <h1><?php echo $this->escapeHtml($title); ?></h1>
 
-<p>Are you sure that you want to delete
-    '<?php echo $this->escapeHtml($product->name); ?>' by
-    '<?php echo $this->escapeHtml($product->description); ?>'?
-    '<?php echo $this->escapeHtml($product->price); ?>'?
-    '<?php echo $this->escapeHtml($product->photo); ?>'?
-</p>
+<p>Are you sure that you want to delete ?</p>
+
+<table class="table">
+    <th>Name</th>
+    <th>Description</th>
+    <th>Price</th>
+    <th>Photo</th>
+
+    <tr>
+        <td><p><?=$this->escapeHtml($product->name)?></p></td>
+        <td><p><?=$this->escapeHtml($product->description)?></p></td>
+        <td><p><?=$this->escapeHtml($product->price)?></p></td>
+        <td><p> 
+                <a href="<?= $this->escapeHtml($product->photo)?>">
+                    <img src="<?=$this->escapeHtml($product->photo)?>"width="50" height="50" />
+                </a>
+            </p>
+        </td>
+    </tr>
+</table>
+
 
 <?php
 $url = $this->url('product', array(
