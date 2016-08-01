@@ -11,6 +11,7 @@ $form->prepare();
 ?>
 
 <?= $this->form()->openTag($form)?>
+<?=$this->formHidden($form->get('id'))?>
 <div class="form-group">
 	<?=$this->formRow($form->get('name'))?>
 </div>

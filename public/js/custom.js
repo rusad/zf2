@@ -9,7 +9,7 @@ var app = {
 
 	validateForm: function (e) {
 		var form = $(this), // form instance 
-			inputs = form.find('input'), // get input fields
+			inputs = form.find('input:visible'), // get input fields
 			isValid = true; // valid by default
 		
 		inputs.tooltip('destroy');
