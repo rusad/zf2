@@ -24,7 +24,6 @@ class IndexController extends AbstractActionController
 	
     public function loginAction()
 	{
-		//$user = $this->identity();
 		$form = new AuthForm();
 		$form->get('submit')->setValue('Login');
 		$messages = null;
@@ -39,27 +38,18 @@ class IndexController extends AbstractActionController
 				$sm = $this->getServiceLocator();
 				$dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
 				
-				// $config = $this->getServiceLocator()->get('Config');
-				// $staticSalt = $config['static_salt'];
-
 				$authAdapter = new AuthAdapter($dbAdapter,
 										   'users', // there is a method setTableName to do the same
 										   'usr_name', // there is a method setIdentityColumn to do the same
 										   'usr_password', // there is a method setCredentialColumn to do the same
-										   "MD5(?)"// AND usr_active = 1" // setCredentialTreatment(parametrized string) 'MD5(?)'
-										   //"MD5(CONCAT('$staticSalt', ?, usr_password_salt)) AND usr_active = 1"
-										  );
+										   "MD5(?)"  // setCredentialTreatment(parametrized string) 'MD5(?)'
+										   );
 				$authAdapter
 					->setIdentity($data['usr_name'])
-					->setCredential($data['usr_password'])
-				;
-				
-				// $auth = new AuthenticationService();
-				// or prepare in the globa.config.php and get it from there. Better to be in a module, so we can replace in another module.
-				// $auth = $this->getServiceLocator()->get('Zend\Authentication\AuthenticationService');
+					->setCredential($data['usr_password']);
+								
 				$auth = $sm->get('my_auth_service');
-				//$sm->setService('Zend\Authentication\AuthenticationService', $auth); // You can set the service here but will be loaded only if this action called.
-				
+								
 				$result = $auth->authenticate($authAdapter);			
 				
 				switch ($result->getCode()) {
@@ -78,7 +68,7 @@ class IndexController extends AbstractActionController
 							'usr_password'
 						));
 						$time = 60 * 60 * 24 * 14; // 14 days
-//						if ($data['rememberme']) $storage->getSession()->getManager()->rememberMe($time); // no way to get the session
+
 						if ($data['rememberme']) {
 							$sessionManager = new \Zend\Session\SessionManager();
 							$sessionManager->rememberMe($time);
@@ -100,11 +90,6 @@ class IndexController extends AbstractActionController
 	
 	public function logoutAction()
 	{
-		// $auth = new AuthenticationService();
-		// or prepare in the globa.config.php and get it from there
-		
-		// no way to get ServiceLocator, hence logout working incorrect, cause $auth is new instance of AuthenticationService
-		// $auth = $this->getServiceLocator()->get('Zend\Authentication\AuthenticationService');
 		$auth = $this->getServiceLocator()->get('my_auth_service');
 		
 		if ($auth->hasIdentity()) {
@@ -112,7 +97,7 @@ class IndexController extends AbstractActionController
 		}			
 		
 		$auth->clearIdentity();
-		// $auth->getStorage()->session->getManager()->forgetMe(); // no way to get the sessionmanager from storage
+		
 		$sessionManager = new \Zend\Session\SessionManager();
 		
 		$sessionManager->forgetMe();
