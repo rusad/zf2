@@ -43,8 +43,13 @@ class ProductController extends AbstractActionController
         if ($request->isPost()) {
             $product = new Product();
             $form->setInputFilter($product->getInputFilter());
-            $form->setData($request->getPost());
-
+            
+            $post =  array_merge_recursive(
+                $request->getPost()->toArray(),
+                $request->getFiles()->toArray()
+            );
+            $form->setData($post);
+            
             if ($form->isValid()) {
                 $product->exchangeArray($form->getData());
                 $this->getProductTable()->saveProduct($product);
@@ -83,7 +88,12 @@ class ProductController extends AbstractActionController
         $request = $this->getRequest();
         if ($request->isPost()) {
             $form->setInputFilter($product->getInputFilter());
-            $form->setData($request->getPost());
+            
+            $post =  array_merge_recursive(
+                $request->getPost()->toArray(),
+                $request->getFiles()->toArray()
+            );
+            $form->setData($post);
 
             if ($form->isValid()) {
                 $this->getProductTable()->saveProduct($product);

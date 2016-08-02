@@ -56,13 +56,9 @@ class ProductForm extends Form
 
         $this->add(array(
             'name' => 'photo',
-            'type' => 'Text',
+            'type' => 'File',
             'options' => array(
-                'label' => 'Photo',
-            ),
-            'attributes' => array(
-                'class' => 'form-control',
-                'placeholder' => 'Photo URL',
+                'label' => 'File',
             ),
         ));
 

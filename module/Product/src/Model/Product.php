@@ -5,6 +5,7 @@ namespace Product\Model;
 use Zend\InputFilter\InputFilter;
 use Zend\InputFilter\InputFilterAwareInterface;
 use Zend\InputFilter\InputFilterInterface;
+use Zend\InputFilter\FileInput;
 
 class Product implements InputFilterAwareInterface
 {
@@ -21,7 +22,7 @@ class Product implements InputFilterAwareInterface
         $this->name         = !empty($data['name']) ? $data['name'] : null;
         $this->description  = !empty($data['description']) ? $data['description'] : null;
         $this->price        = !empty($data['price']) ? $data['price'] : null;
-        $this->photo        = !empty($data['photo']) ? $data['photo'] : null;
+        $this->photo        = !is_array($data['photo']) ? $data['photo'] : '/'.$data['photo']['tmp_name'];
     }
 
     public function setInputFilter(InputFilterInterface $inputFilter)
@@ -75,6 +76,32 @@ class Product implements InputFilterAwareInterface
                             'encoding' => 'UTF-8',
                             'min'      => 10,
                             'max'      => 500,
+                        ),
+                    ),
+                ),
+            ));
+
+            $file = new FileInput('photo');
+            $file->setAllowEmpty(true);
+            $file->getFilterChain()->attachByName(
+                'filerenameupload',
+                array(
+                    'target'          => 'public/img/',
+                    'overwrite'       => true,
+                    'use_upload_name' => true,
+                    'randomize' => true,
+                )
+            );
+            $inputFilter->add($file);
+
+            $inputFilter->add(array(
+                'name'     => 'photo',
+                'validators' => array(
+                    array(
+                        'name' => 'Zend\Validator\File\Size',
+                        'options' => array(
+                            'min' => 120,
+                            'max' => 20000,
                         ),
                     ),
                 ),
